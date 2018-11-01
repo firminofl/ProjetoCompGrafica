@@ -7,6 +7,8 @@ public class Camera {
   private Film film;
 
   public Camera() {
+    fieldOfView = -1;
+    worldMatrix = null;
 
   }
 
