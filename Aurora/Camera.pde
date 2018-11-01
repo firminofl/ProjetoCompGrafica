@@ -17,10 +17,10 @@ public class Camera {
   }
 
   public void lookAt(PVector position, PVector target, PVector up) {
-    PVector p_menos_f = position.sub(target);
-    PVector w = p_menos_f.div(p_menos_f.mag());
-    PVector up_cross_w = up.cross(w);
-    PVector u = up_cross_w.div(up_cross_w.mag());
+    PVector distance_of_pf_points = position.sub(target);
+    PVector w = distance_of_pf_points.div(distance_of_pf_points.mag());
+    PVector vetor_w = up.cross(w);
+    PVector u = vetor_w.div(vetor_w.mag());
     PVector v = w.cross(u);
 
     worldMatrix = new PMatrix3D(u.x, v.x, w.x, position.x,
