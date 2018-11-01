@@ -23,11 +23,10 @@ void draw(){
   //background(50);
   image(pic,0,0);
   float x = x0 + vx0 * t;
-  float y = y0 = vy0 * t * 0.5 * g * t * t;
-  t+=step;
+  float y = y0 + vy0 * t * 0.5 * g * t * t;
+  System.out.print("\nValores de y:" + y);
   ellipse(x, y, diameter, diameter);
-  
-  if(y > 70){
-    y = y - 10;
-  }
+  delay(20);
+
+  t += step;
 }

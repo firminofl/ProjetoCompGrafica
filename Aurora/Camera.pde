@@ -31,11 +31,21 @@ public class Camera {
   }
 
   public void transform(PMatrix3D transformation) {
+    worldMatrix.apply(transformation);
 
   }
 
   public Ray generateRay(float x, float y, PVector sample) {
-    return null;
+    float xc = film.aspectRatio() * (fieldOfView/2) * x;
+    float yc = (fieldOfView/2) * y;
+
+    PVector P = new PVector(xc, yc, -1);    
+    PVector PL = new PVector(1, 1, 1);
+    PL = worldMatrix.mult(P, PL); 
+
+    PVector D = PVector.sub(PL, sample).normalize();
+
+    return new Ray(P, D);
   }
 
 }
