@@ -31,11 +31,11 @@ public class Renderer {
   }
 
   public PImage render() {
-    PImage image = createImage(width, height, RGB);
+    PImage image = createImage(options.width, options.height, RGB);
     
-    for (int i = 0; i < width - 1; i++) {
-      for (int j = 0; j < height - 1; i++) {
-        PVector[] samples = stratifiedSample(options.cameraSamples);
+    for (int i = 0; i < options.width - 1; i++) {
+      for (int j = 0; j < options.height - 1; i++) {
+        PVector[] cameraSamples = stratifiedSample(options.cameraSamples);
 
         PVector colorP = new PVector(0, 0, 0);
         float totalWeight = 0;
@@ -43,7 +43,7 @@ public class Renderer {
         PVector point = new PVector(0.5, 0.5);
 
         for (int k = 0; k < options.cameraSamples -1; k++) {
-          PVector sample = PVector.mult((PVector.sub(samples[k], point)), options.filterWidth);
+          PVector sample = PVector.mult((PVector.sub(cameraSamples[k], point)), options.filterWidth);
           Ray ray = camera.generateRay(i, j, sample);
           float weight = gaussian2D(sample, options.filterWidth);
 
