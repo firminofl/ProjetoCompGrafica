@@ -1,12 +1,18 @@
 public abstract class Light {
-    public PVector emission;
-    
-    public Light() {}
-    public Light(PVector emission) {
-        this.emission = emission;
-    }
-    
-    public abstract PVector evaluate(ShaderGlobals shaderGlobals);
-    public abstract float pdf(ShaderGlobals shaderGlobals);
-    public abstract PVector sample(ShaderGlobals shaderGlobals, PVector sample);
+
+  public PVector emissor;
+
+  public Light() {
+    emissor = null;
+  }
+
+  public Light(PVector emissor) {
+    this.emissor = emissor;
+  }
+
+  abstract PVector evaluate(ShaderGlobals shaderGlobals);
+
+  abstract float pdf(ShaderGlobals shaderGlobals);
+
+  abstract PVector sample(ShaderGlobals shaderGlobals, PVector sample);
 }

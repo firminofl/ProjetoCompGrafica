@@ -1,13 +1,11 @@
 public class Film {
 
-  public float width;
-
-  public float height;
-
-  private Camera camera;
+  float width;
+  float height;
 
   public Film() {
-
+    width = 0;
+    height = 0;
   }
 
   public Film(float width, float height) {
@@ -18,5 +16,4 @@ public class Film {
   public float aspectRatio() {
     return width / height;
   }
-
 }
