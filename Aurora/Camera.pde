@@ -5,7 +5,7 @@ public class Camera {
 
   public Camera() {
     fieldOfView = -1;
-    worldMatrix = null;
+    worldMatrix = null; 
   }
 
   public Camera(float fieldOfView, Film film, PMatrix3D worldMatrix) {
