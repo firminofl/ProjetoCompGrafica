@@ -1,30 +1,24 @@
-public class Scene {
-
-  ArrayList<Shape> shapes;
-
-  public Scene() {
-    shapes = null;
-  }
-
-  public Scene(ArrayList<Shape> shapes) {
-    this.shapes = shapes;
-  }
-
-  public Intersection intersects(Ray ray) {
-    Intersection intersection = new Intersection();
-
-    intersection.hit = false;
-    intersection.distance = Float.MAX_VALUE;
-
-    for (Shape object : shapes) {
-      Intersection temp = object.intersects(ray);
-
-      if (temp.hit && temp.distance < intersection.distance) {
-        intersection = temp;
-        intersection.index = shapes.indexOf(object);
-      }
+class Scene {
+    private ArrayList<Shape> shapes;
+    
+    public Scene() {};
+    public Scene(ArrayList<Shape> shapes) {  
+        this.shapes = shapes;
     }
+    
+    public Intersection intersects(Ray ray) {
+        Intersection r = new Intersection(false, (1<<30), -1);
 
-    return intersection;
-  }
+        for (int i = 0; i < shapes.size(); i++) {
+            Intersection aux = shapes.get(i).intersects(ray);
+
+            if (aux.hit && aux.distance < r.distance) {
+                r = aux;
+                r.index = i;
+            }
+        }
+
+        return r;
+    }
+  
 }

@@ -1,19 +1,16 @@
-public class Film {
+class Film {
+    public float width;
+    public float height;
 
-  float width;
-  float height;
+    public Film(){}
 
-  public Film() {
-    width = 0;
-    height = 0;
-  }
+    public Film(float width, float height) {
+        this.width = width;
+        this.height = height;
+    }
 
-  public Film(float width, float height) {
-    this.width = width;
-    this.height = height;
-  }
+    public float aspectRatio() {
+        return width / height;
+    }
 
-  public float aspectRatio() {
-    return width / height;
-  }
 }
