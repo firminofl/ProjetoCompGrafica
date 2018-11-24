@@ -14,8 +14,27 @@ class Renderer {
     }
 
     public PVector computeDirectIllumination(BSDF bsdf, ShaderGlobals shaderGlobals) {
-        // TODO
-        return new PVector();
+        PVector directIllumination = new PVector(0, 0, 0);
+
+        for (int i = 0; i < scene.shapes.size(); i++) {
+            Shape light = scene.shapes.get(i);
+
+            if (light.explicitLight) {
+                shaderGlobals.lightDirection = PVector.sub(((Sphere)light).position, shaderGlobals.point).normalize();
+                Ray ray = new Ray(shaderGlobals.point, shaderGlobals.lightDirection);
+
+                Intersection intersection = scene.intersects(ray);
+                if (intersection.hit && intersection.index == i) {
+                    float cosine = shaderGlobals.normal.dot(shaderGlobals.lightDirection);
+                    PVector bsdfValue = bsdf.evaluate(shaderGlobals);
+                    PVector lightIntensity = PVector.mult(light.evaluate(shaderGlobals), 1);
+                    
+                    directIllumination.add(utils.multiplyColor(bsdfValue.mult(cosine), lightIntensity));
+                }
+            }
+        }
+
+        return directIllumination;
     }
 
     public PVector computeIndirectIllumination(BSDF bsdf, ShaderGlobals shaderGlobals) {
@@ -25,7 +44,18 @@ class Renderer {
 
     public PVector trace(Ray ray, int depth) {
         Intersection intersection = scene.intersects(ray);
-        return intersection.hit ? new PVector(1.0, 1.0, 1.0) : new PVector(0, 0, 0);
+
+        if (intersection.hit) {
+            Shape shape = scene.shapes.get(intersection.index);
+            ShaderGlobals shaderGlobals = shape.calculateShaderGlobals(ray, intersection);
+
+            // se interceptou uma luz, retorna a luz
+            if (shape.explicitLight) return shape.evaluate(shaderGlobals);
+            // senão, calcula a iluminação direta no objeto
+            return computeDirectIllumination(shape.bsdf, shaderGlobals);
+        }
+
+        return new PVector(0, 0, 0);
     }
 
     public PImage render() {

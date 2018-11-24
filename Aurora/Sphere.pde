@@ -4,9 +4,10 @@ class Sphere extends Shape {
 
     public Sphere() {}
     
-    public Sphere(PVector position, float radius, boolean explicitLight, PVector emission){
+    public Sphere(PVector position, float radius, BSDF bsdf, boolean explicitLight, PVector emission){
         this.position = position;
         this.radius = radius;
+        this.bsdf = bsdf;
         this.explicitLight = explicitLight;
         this.emission = emission;
     }
@@ -16,18 +17,13 @@ class Sphere extends Shape {
         PVector d = PVector.sub(position, ray.origin);
         float t = d.dot(ray.direction);
         
-        if (t < 0)
-            return new Intersection();
+        if (t < 0) return new Intersection();
         
         float d2 = d.dot(d) - t * t;
         float r2 = radius * radius;
         
-        if (d2 > r2)
-            return new Intersection();
-        
-        float dt = sqrt(r2 - d2);
-        
-        return new Intersection(true, t - dt, -1);
+        if (d2 > r2) return new Intersection();
+        return new Intersection(true, t - sqrt(r2 - d2), -1);
     }
     
     @Override
@@ -62,7 +58,7 @@ class Sphere extends Shape {
 
     @Override
     public PVector evaluate(ShaderGlobals sg) {
-        return new PVector();
+        return emission;
     }
     
     @Override

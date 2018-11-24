@@ -51,4 +51,8 @@ class Utils {
         return new PVector(colour.x * t, colour.y * t, colour.z * t);
     }
 
+    public PVector multiplyColor(PVector a, PVector b) {
+        return new PVector(a.x * b.x, a.y * b.y, a.z * b.z);
+    }
+
 }
